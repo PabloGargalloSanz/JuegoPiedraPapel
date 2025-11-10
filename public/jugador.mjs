@@ -1,4 +1,3 @@
-import Jugada from "./jugada.mjs";
 import { numeroJugadas } from "./jugada.mjs";
 import { jugadas } from "./jugada.mjs";
 
@@ -11,17 +10,15 @@ export class Jugador{
         this.#jugada = jugadas[opcion];
     }
 
-    luchaJugador(){
-        let nonPlayer = new Jugador();
-        nonPlayer.nombreBot();
-
-        if((this.#jugada.luchaJugada(nonPlayer.bot())) === 0) {
+    luchaJugador(nonPlayer, jugada){
+        
+        if((jugada.luchaJugada(nonPlayer.bot())) === 0) {
             this.Jugador.sumarPunto();
             
-        } else if((this.#jugada.luchaJugada(nonPlayer.jugarBot())) === 1){
+        } else if((jugada.luchaJugada(nonPlayer.jugarBot())) === 1){
             nonPlayer.sumarTresPuntos();
             
-        } else if((this.#jugada.luchaJugada(nonPlayer.jugarBot())) === null) {
+        } else if((jugada.luchaJugada(nonPlayer.jugarBot())) === null) {
             this.Jugador.sumarPunto();
             nonPlayer.sumarPunto();
 
@@ -39,11 +36,6 @@ export class Jugador{
         return eleccion;
     }
 
-    getJugada(){
-        return this.#jugada;
-    }
-
-   
     sumarPunto(){
         this.#puntuacion = this.#puntuacion + 1 ;
     }
@@ -52,7 +44,35 @@ export class Jugador{
         this.#puntuacion = this.#puntuacion + 3 ;
     }
 
+    getJugada(){
+        return this.#jugada;
+    }
 
+    render(elto) {
+        let nombre = document.createElement("h2");
+        nombre.innerText = this.getNombre();
+
+        let puntuacion = document.createElement("p");
+        puntuacion.innerText = "Puntuacion: " + this.getPuntuacion();
+
+        elto.appendChild(nombre);
+        elto.appendChild(puntuacion);
+
+    }
+
+    renderGanador(elto) {
+        let nombre = document.createElement("h1");
+        nombre.innerText = "El ganador es " + this.getNombre();
+
+        elto.appendChild(nombre);
+
+    }
+   
+    
+
+    getNombre(){
+        return this.#nombre;
+    }
     getPuntuacion(){
         return this.#puntuacion;
     }
